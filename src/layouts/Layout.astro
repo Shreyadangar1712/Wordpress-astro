@@ -1,0 +1,178 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  pageClass?: string;
+}
+
+const { title = 'Demski Group', description = '', pageClass = '' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+      /* ─── RESET ─── */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Outfit', sans-serif; background: #ffffff; color: #282828; }
+
+      /* ─── STICKY HEADER WRAPPER ─── */
+      /* Wraps top-bar + header + mobile-menu so they pin as one unit */
+      .site-header-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 500;
+        background: #ffffff;
+      }
+
+      /* ─── TOP BAR ─── */
+      .top-bar { background: #0154b1; color: white; font-size: 20px; padding: 8px 30px; text-align: center; }
+      .top-bar a { color: white; font-weight: 700; text-decoration: underline; }
+
+      /* ─── HEADER ─── */
+      header { background: white; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; z-index: 10; }
+      .logo img { height: 45px; width: auto; }
+      nav { display: flex; align-items: center; gap: 24px; flex: 1; padding-left: 27%; }
+      nav .btn-cta { margin-left: auto; margin-right: 5%; padding: 10px 18px !important; font-size: 16.5px !important; }
+      nav a { text-decoration: none; font-size: 18px; color: #222; font-weight: 500; transition: color 0.3s ease; }
+      nav a:hover { color: #003087; }
+      .nav-dropdown { position: relative; }
+      .nav-trigger { background: none; border: 0; padding: 0; font: inherit; font-size: 18px; color: #222; font-weight: 500; cursor: pointer; }
+      /* dropdown must escape header's z-index context: use large value relative to wrapper */
+      .nav-dropdown-menu { position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%); width: 374px; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.14); display: none; z-index: 9999; border: 1px solid #ececec; }
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown:focus-within .nav-dropdown-menu { display: block; }
+      .nav-dropdown-menu a { display: block; padding: 16px 20px; border-bottom: 1px solid #e6e6e6; font-size: 18px; color: #333; background: #fff; }
+      .nav-dropdown-menu a:last-child { border-bottom: 0; }
+      .nav-dropdown-menu a:hover,
+      .nav-dropdown-menu a.active { color: #0154b1; }
+      .btn-cta { background: #f09300 !important; color: white !important; border: 1px solid #f09300; padding: 10px 20px !important; border-radius: 6px; font-size: 18px !important; font-weight: 500 !important; white-space: nowrap; transition: background 0.4s ease; }
+      .btn-cta:hover { background: #ffffff !important; border: 1px solid #222; color: #222 !important; }
+
+      /* ─── HAMBURGER / MOBILE MENU ─── */
+      .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; background: none; border: none; padding: 5px; }
+      .hamburger span { display: block; width: 25px; height: 2px; background: #222; border-radius: 2px; transition: all 0.3s ease; }
+      .mobile-menu { display: none; flex-direction: column; background: white; padding: 20px; gap: 15px; border-top: 1px solid #eee; }
+      .mobile-menu a { font-size: 18px; color: #222; text-decoration: none; font-weight: 500; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+      .mobile-menu a:last-child { border-bottom: none; }
+      .mobile-menu.open { display: flex; }
+
+      /* ─── FOOTER ─── */
+      footer { background: #ffffff; color: #282828; padding: 0; margin-top: 60px; }
+      .footer-inner { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0; align-items: stretch; }
+      .footer-logo { padding: 50px 40px; background: #ffffff; }
+      .footer-logo img { height: 80px; width: auto; }
+      .footer-col { padding: 50px 40px; background: #ffffff; }
+      .footer-col h4 { font-size: 35px; font-weight: 600; margin-bottom: 16px; color: #282828; }
+      .footer-col a { display: block; font-size: 18px; color: #282828; text-decoration: none; margin-bottom: 20px; }
+      .footer-col a:hover { text-decoration: underline; }
+      .footer-contact { background: #ebebeb !important; padding: 50px 40px; }
+      .footer-contact h4 { font-size: 35px; font-weight: 600; margin-bottom: 16px; color: #0A0000; }
+      .footer-contact p { font-size: 18px; color: #000000; line-height: 1.5; margin-bottom: 20px; }
+      .footer-cta-btn { display: inline-block; background: #f09300; color: white !important; padding: 12px 22px; border-radius: 4px; font-weight: 500; font-size: 20px !important; margin-bottom: 18px; text-decoration: none !important; width: fit-content !important; }
+      .footer-cta-btn:hover { background: #d98200 !important; }
+      .footer-bottom { border-top: 1px solid #ddd; padding: 16px 80px; font-size: 18px; color: #888; text-align: center; background: #ffffff; }
+      .social-row { display: flex; gap: 8px; margin-top: 10px; }
+      .social-row a { width: 50px; height: 50px; background: #1a1a1a; border-radius: 17%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; font-weight: 500; text-decoration: none !important; transition: background 0.3s ease; }
+      .social-row a:hover { background: #003087; }
+
+      /* ─── MOBILE RESPONSIVE ─── */
+      @media (max-width: 768px) {
+        .top-bar { font-size: 12px; padding: 8px 15px; }
+        header { padding: 12px 20px; flex-wrap: wrap; gap: 12px; }
+        .logo img { height: 35px; }
+        nav { display: none; }
+        .hamburger { display: flex; }
+        .footer-inner { grid-template-columns: 1fr !important; }
+        .footer-logo { padding: 30px 20px 0; }
+        .footer-col { padding: 20px; }
+        .footer-contact { padding: 20px; }
+        .footer-bottom { padding: 16px 20px; }
+      }
+
+      @media (max-width: 480px) {
+        .btn-cta { display: none; }
+      }
+    </style>
+    <!-- Page-level styles injected here -->
+    <slot name="head" />
+  </head>
+  <body class={pageClass}>
+
+    <!-- STICKY SITE HEADER: top-bar + navbar + mobile-menu pin together -->
+    <div class="site-header-wrap">
+
+      <!-- TOP BAR -->
+      <div class="top-bar">
+        Questions? We're On Standby – Give Us a Call <a href="tel:406-868-1034">406-868-1034</a>
+      </div>
+
+      <!-- HEADER -->
+      <header>
+        <div class="logo">
+          <a href="/"><img src="/Logo3-768x137.webp" alt="Demski Group" /></a>
+        </div>
+        <nav>
+          <div class="nav-dropdown">
+            <button class="nav-trigger" type="button">Solutions ▾</button>
+            <div class="nav-dropdown-menu">
+              <a href="/services/">Software Development Services</a>
+              <a class="active" href="/solutions/sales-lead-tracking-tools/">Sales &amp; Lead Tracking</a>
+              <a href="/solutions/technology-consulting/">Technology Consulting for SMBs</a>
+              <a href="/solutions/workflow-automation-solutions/">Workflow Automation Solutions</a>
+              <a href="/solutions/business-process-automation/">Business Process Automation</a>
+              <a href="/solutions/crm-development/">CRM Development &amp; Optimization</a>
+              <a href="/solutions/custom-business-dashboards/">Custom Business Dashboards</a>
+              <a href="/solutions/digital-transformation/">Custom Digital Transformation Strategy</a>
+              <a href="/solutions/ecommerce/">eCommerce</a>
+              <a href="/solutions/customer-self-service-portals/">Customer Self Service Portals</a>
+              <a href="/solutions/data-decision-tools/">Data Decision Tools</a>
+              <a href="/solutions/employee-scheduling/">Employee Scheduling &amp; Time Tracking</a>
+              <a href="/solutions/inventory-management-systems/">Inventory Management Solutions</a>
+              <a href="/solutions/operations-logistics-software/">Operations &amp; Logistics</a>
+            </div>
+          </div>
+          <a href="/our-clients">Our Clients</a>
+          <a href="/about">About Us</a>
+          <a href="/blog" style="color:#222;font-weight:500">Resources ▾</a>
+          <a href="/contact-us/" class="btn-cta">Schedule a Consultation</a>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </header>
+
+      <!-- MOBILE MENU (inside wrapper so it expands the sticky unit) -->
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#">Solutions</a>
+        <a href="#">Our Clients</a>
+        <a href="#">About Us</a>
+        <a href="#">Resources</a>
+        <a href="/contact-us/" style="color:#f09300;font-weight:700">Schedule a Consultation</a>
+      </div>
+
+    </div><!-- /.site-header-wrap -->
+
+    <!-- PAGE CONTENT -->
+    <slot />
+
+
+    <script>
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('open');
+        });
+      }
+    </script>
+
+  </body>
+</html>
