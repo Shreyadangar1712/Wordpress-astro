@@ -39,6 +39,7 @@ try {
 html, body { overflow-x: hidden; }
 * { box-sizing: border-box; }
 .mob-br { display: none; }
+.desk-br { display: inline; }
 
 /* ─── SECTION 0: HERO ─── */
 .hero {
@@ -215,6 +216,8 @@ html, body { overflow-x: hidden; }
 }
 .btn-outline:hover { background: #ffffff; color: #0154b1; border-color: #0154b1; }
 .btn-outline:hover .btn-arrow-circle { background: #0154b1; color: #ffffff; }
+
+.svc-btn-mobile { display: none; }
 
 /* Grid — 3 cols, NO visible borders, just open cards */
 .services-grid {
@@ -567,7 +570,6 @@ html, body { overflow-x: hidden; }
 .excellence-card {
   max-width: 1300px;
   margin: -114px auto 0;
-  transform: translateY(6%);
   background: #0c0c0c;
   border-radius: 25px;
   overflow: hidden;
@@ -1362,17 +1364,18 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
     gap: 0;
   }
   .mob-br { display: block; }
+  .desk-br { display: none; }
   .hero-text h1 {
-    font-size: 38px;
-    line-height: 1.15;
+    font-size: 56px !important;
+    line-height: 1.1;
     text-align: center;
     color: #282828;
     margin-bottom: 14px;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.5px;
   }
   .hero-typed { display: none; }
   .hero-text p {
-    font-size: 15px;
+    font-size: 18px;
     max-width: 88%;
     text-align: center;
     color: #282828;
@@ -1380,11 +1383,13 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
     margin-bottom: 28px;
   }
   .btn-orange {
-    font-size: 16px;
-    padding: 14px 30px;
+    font-size: 18px;
+    padding: 16px 28px;
     border-radius: 50px;
     display: inline-block;
+    max-width: 200px;
     width: auto;
+    text-align: center;
     margin: 0 auto;
   }
 
@@ -1399,6 +1404,8 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
   .services-inner { padding: 0 16px; }
   .services-header { flex-direction: column; gap: 16px; padding: 50px 0 30px; align-items: center; text-align: center; }
   .services-header h2 { font-size: 28px; white-space: normal; transform: none; text-align: center; }
+  .svc-btn-desktop { display: none !important; }
+  .svc-btn-mobile { display: inline-flex; margin: 32px auto 0; transform: none; }
   .btn-outline { transform: none; margin-top: 0; font-size: 15px; }
   .services-grid { grid-template-columns: 1fr; gap: 32px; }
   .service-card h3 { font-size: 22px; }
@@ -1413,12 +1420,16 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
 
   /* Clients */
   .clients-top { flex-direction: column; min-height: auto; }
-  .clients-left { flex: none; width: 100%; height: 280px; margin-top: 0; border-radius: 0 28px 0 0; overflow: hidden; }
-  .clients-left img { width: 100%; height: 100%; transform: none; }
-  .clients-right { padding: 30px 20px 50px; }
-  .clients-right h2 { font-size: 28px; }
-  .clients-right p { font-size: 15px; }
-  .btn-outline-clients { margin-top: 30px; font-size: 14px; }
+  .clients-left { display: none; }
+  .clients-right {
+    width: 100%;
+    padding: 40px 24px 40px;
+    text-align: center;
+    align-items: center;
+  }
+  .clients-right h2 { font-size: 38px !important; text-align: center; }
+  .clients-right p { font-size: 16px; text-align: center; }
+  .btn-outline-clients { margin-top: 24px; font-size: 15px; transform: none; }
   .testimonial-slider-wrap { margin-top: 0; padding: 0 0 40px; }
   .tslider-clip { margin: 0 12px; }
   .testimonial-card-new { flex: 0 0 calc(85vw - 24px); }
@@ -1441,23 +1452,35 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
   /* Process */
   .process-section { padding: 60px 16px 120px; }
   .process-heading { text-align: center; }
-  .process-heading h2 { font-size: 28px; text-align: center; }
-  .process-heading p { font-size: 15px; text-align: center; }
+  .process-heading { text-align: center; padding: 0 16px; }
+  .process-heading h2 { font-size: 24px !important; text-align: center; line-height: 1.3; margin-bottom: 16px; }
+  .process-heading p { font-size: 16px !important; text-align: center; line-height: 1.7; max-width: 100%; }
   .process-body { flex-direction: column; gap: 30px; }
   .process-right { position: static; width: 100%; }
   .process-right-actions { flex-direction: row; flex-wrap: wrap; gap: 16px; justify-content: center; margin-left: 0; transform: none; }
-  .btn-back-arrow { font-size: 48px; margin-left: 0; }
+  .btn-back-arrow { display: none !important; }
+  .btn-orange-process {
+    background: #F09300 !important;
+    border-radius: 50px !important;
+    padding: 16px 36px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    transform: translateX(15%) translateY(60%);
+  }
   .step-card h4 { font-size: 18px; }
   .step-card p { font-size: 15px; }
   .step-card::before { display: none; }
   .process-deco-card { display: none; }
 
   /* Blog */
-  .blog-section { padding: 50px 16px; }
-  .section-header { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .section-header h2 { font-size: 26px; }
-  .cards-slider-wrap { margin-top: 20px; }
-  .post-card { flex: 0 0 90vw; height: 320px; }
+  .blog-section { padding: 40px 16px; }
+  .blog-section .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .blog-section .section-header h2 { font-size: 34px; font-weight: 700; }
+  .blog-section .cards-slider-wrap { margin-top: 20px; overflow: visible; }
+  .blog-section .cards-slider { flex-direction: column; overflow: visible; gap: 14px; }
+  .blog-section .post-card { flex: none; width: 100%; height: 150px; border-radius: 14px; }
+  .blog-section .post-card[aria-hidden="true"] { display: none !important; }
+  .blog-section .cards-slider > .post-card:nth-child(n+10) { display: none !important; }
   .cards-nav { display: none !important; }
   .blog-section .cards-nav { display: none !important; }
   .results-section .cards-nav { display: none !important; }
@@ -1492,7 +1515,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
    ═══════════════════════════════════════════════════════ */
 @media (max-width: 430px) {
   /* Hero */
-  .hero-text h1 { font-size: 30px; letter-spacing: -0.2px; }
+  .hero-text h1 { font-size: 50px !important; letter-spacing: -0.4px; }
   .hero-typed { display: none; }
   .hero-text p { font-size: 14px; }
   .btn-orange { font-size: 15px; padding: 13px 26px; }
@@ -1512,7 +1535,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
   .clients-right h2 { font-size: 24px; }
 
   /* Process */
-  .process-heading h2 { font-size: 24px; }
+  .process-heading h2 { font-size: 22px !important; }
   .step-label { font-size: 12px; }
 
   /* Blog & Results */
@@ -1547,7 +1570,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="hero-text">
-      <h1>Custom<br class="mob-br" /> Software<br class="mob-br" /> Development</h1>
+      <h1>Custom<br class="mob-br" /> Software<br class="mob-br" /> Developers</h1>
       <div class="hero-typed">For any business, industry,<br/>or idea</div>
       <p>We are your business software partners. Talk to our experts today about your project. We love a challenge.</p>
       <a href="/contact-us/" class="btn-orange">Schedule a Consultation</a>
@@ -1589,7 +1612,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
   <div class="services-inner">
     <div class="services-header" data-aos="fade-up">
       <h2>Code the Future: Innovative Solutions,<br />Tailored for You</h2>
-      <a href="/services/" class="btn-outline">See all services <span class="btn-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></a>
+      <a href="/services/" class="btn-outline svc-btn-desktop">See all services <span class="btn-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></a>
     </div>
     <div class="services-grid">
       <div class="service-card" data-aos="fade-up" data-aos-delay="0">
@@ -1623,6 +1646,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
         <p><br/>Integrate smart devices and advanced technologies to create connected solutions that transform your business operations with our IoT development services.</p>
       </div>
     </div>
+    <a href="/services/" class="btn-outline svc-btn-mobile">See all services <span class="btn-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></a>
   </div>
 </section>
 
@@ -1666,7 +1690,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
       />
     </div>
     <div class="clients-right">
-      <h2>See the Businesses That Rely<br/>on Our Services</h2>
+      <h2>See the Businesses<br class="mob-br" /> That Rely<br class="desk-br" /> on Our<br class="mob-br" /> Services</h2>
       <p>Over 12 years and hundreds of projects later, we have a lot to talk about.</p>
       <a href="https://demskigroup.com/our-clients/" class="btn-outline-clients">
         See our clients <span class="arrow-circle">→</span>
@@ -2121,7 +2145,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
   <div class="process-inner">
 
     <div class="process-heading">
-      <h2>From Vision to Victory: Our Proven Process</h2>
+      <h2>From Vision to Victory:<br class="mob-br" /> Our Proven Process</h2>
       <p>Discover how we turn your ideas into reality with our streamlined, client-focused development process. From initial consultation to final deployment, our expert team ensures every step is meticulously planned and executed to deliver outstanding results.</p>
     </div>
 
@@ -2208,7 +2232,7 @@ footer { background: #ffffff; color: #282828; padding: 0; margin-top: 0 !importa
         <path d="M23 12H5M12 19l-7-7 7-7"/>
       </svg>
     </span>
-    <a href="/contact-us/" class="btn-orange-process">Get Started Today</a>
+    <a href="/contact-us/" class="btn-orange-process">Schedule a Consultation</a>
   </div>
 </div>
 
